@@ -1,3 +1,8 @@
-*.sublime-workspace
-*.sumblime-project
 *.pyc
+vids/*
+.Bridge*
+*.sublime-project
+
+*.sublime-workspace
+
+*.psd
