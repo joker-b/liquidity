@@ -1,16 +1,24 @@
 import cv,cv2
 import numpy as np
-#cap = cv2.VideoCapture("vids/drip.avi") # b&w droplet
-cap = cv2.VideoCapture("vids/IMG_0766_4sec.MOV") # See See small
-#cap = cv2.VideoCapture("vids/DSCF4481.MOV") # See See tea
-# cap = cv2.VideoCapture("vids/20131208_142558_707_muni10.mp4") # subway station
+import os
+#clip = "drip.avi" # b&w droplet
+#clip = "IMG_0766_4sec.MOV" # See See small
+#clip = "DSCF4481.MOV" # See See tea
+clip = "20131208_142558_707_muni10.mp4" # subway station
+
+src = "vids"
+# dest = "pix"
+dest = os.path.join("/Users/kevinbjorke/Google Drive",'kbImport','Cg','subway')
+outN = "subway"
+
+cap = cv2.VideoCapture(os.path.join(src,clip)) # subway station
 
 ret, frame1 = cap.read()
 prvs = cv2.cvtColor(frame1,cv2.COLOR_BGR2GRAY)
 s = frame1.shape
 fourcc = cv.FOURCC('m','p','4','v')
 out = cv2.VideoWriter()
-out.open('output_win25.mov',fourcc, 30.0, (s[1],s[0]),True)
+out.open(os.path.join(dest,('output_%s.mov'%(outN))),fourcc, 30.0, (s[1],s[0]),True)
 # out = cv2.VideoWriter('output.avi',fourcc, 30.0, (s[1],s[0]))
 res2 = np.zeros(frame1.shape,float)
 res8 = np.zeros(frame1.shape,float)
@@ -70,7 +78,7 @@ while(1):
         res8 = res8 / 8
         res8 = np.where(res8<clipper,res8,clipper)
         rx = np.asarray(res8,np.dtype('uint8'))
-        cv2.imwrite('pix/r8_%04d.jpg'%(n),rx)
+        cv2.imwrite(os.path.join(dest,'%s8_%04d.jpg'%(outN,n)),rx)
         res8 = np.zeros(frame1.shape,float)
        
 
@@ -80,7 +88,7 @@ res2 = np.where(res2<clipper,res2,clipper)
 rx = np.asarray(res2,np.dtype('uint8'))
 cv2.imshow('FINAL',rx)
 k = cv2.waitKey(5000) & 0xff
-cv2.imwrite('pix/b_final2.png',rx)
+cv2.imwrite(os.path.join(dest,('%s_final.jpg'%(outN))),rx)
  
 
 cap.release()
