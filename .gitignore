@@ -1,5 +1,6 @@
 *.pyc
 vids/*
+pix/*
 .Bridge*
 *.sublime-project
 
