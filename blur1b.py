@@ -2,14 +2,14 @@ import cv,cv2
 import numpy as np
 import os
 #clip = "drip.avi" # b&w droplet
-#clip = "IMG_0766_4sec.MOV" # See See small
-clip = "DSCF4481.MOV" # See See tea
+clip = "IMG_0766_4sec.MOV" # See See small
+# clip = "DSCF4481.MOV" # See See tea
+outN = "small"
 # clip = "20131208_142558_707_muni10.mp4" # subway station
 
 src = "vids"
-# dest = "pix"
-dest = os.path.join("/Users/kevinbjorke/Google Drive",'kbImport','Cg','subway')
-outN = "subway"
+dest = "pix/%s" % (outN)
+# dest = os.path.join("/Users/kevinbjorke/Google Drive",'kbImport','Cg','subway')
 
 cap = cv2.VideoCapture(os.path.join(src,clip)) # subway station
 
@@ -30,14 +30,21 @@ while(1):
     except:
         break
     # cv2.calcOpticalFlowFarneback(prev, next, pyr_scale, levels, winsize, iterations, poly_n, poly_sigma, flags[, flow]) 
-    flow = cv2.calcOpticalFlowFarneback(prvs,nextF, 0.5, 3, 25, 3, 5, 1.2, 0) # vers 2
+    pyr_scale = 0.5
+    levels = 3
+    winsize = 15
+    iterations = 3
+    poly_n = 5
+    poly_sigma = 1.2
+    flags = 0
+    flow = cv2.calcOpticalFlowFarneback(prvs,nextF, pyr_scale, levels, winsize, iterations, poly_n, poly_sigma, flags) # vers 2
     #flow = cv2.calcOpticalFlowFarneback(prvs,nextF, 0.5, 3, 15, 3, 5, 1.2, 0) # vers 2
     s = nextF.shape
     cols = np.zeros((s[0],s[1]),dtype=int) + np.arange(0,s[1],dtype=int)
     rows = np.zeros((s[1],s[0]),dtype=int) + np.arange(0,s[0],dtype=int)
     rows = np.transpose(rows)
     res = np.zeros(frame2.shape,float)
-    rg = np.arange(-2.,4.,0.1)
+    rg = np.arange(-1.,2.,0.1)
     for m in rg:
         v,u = cv2.split(flow*m)
         cols = cols + u
