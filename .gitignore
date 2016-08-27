@@ -3,6 +3,7 @@ vids/*
 pix/*
 .Bridge*
 *.sublime-project
+*.pkl
 
 *.sublime-workspace
 
